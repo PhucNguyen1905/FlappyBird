@@ -1,6 +1,6 @@
-import { ImgObject } from "./Object/ImgObject";
-import { Score } from "./Object/Score";
-import { Scene } from "./Scenes/Scene";
+import { ImgObject } from "../Object/ImgObject";
+import { Score } from "../Object/Score";
+import { Scene } from "../Scenes/Scene";
 
 const TO_RADIANS = Math.PI / 180;
 

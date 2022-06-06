@@ -1,10 +1,9 @@
 import { Sprite } from "./Sprite";
+import { Constants } from "../Helpers/Contants";
 
 export class Bird extends Sprite {
     // Index of frame
     idx: number = 0;
-    // down || up
-    direction: string = 'down';
 
     speed: number = 0;
     gravity: number = 980;
@@ -15,7 +14,7 @@ export class Bird extends Sprite {
         super(x, y, name, w, h, numFrame);
     }
 
-    changeFrame() {
+    changeFrame(): void {
         this.idx += 1;
         if (this.idx >= this.numFrame) {
             this.idx = 0;
@@ -23,7 +22,6 @@ export class Bird extends Sprite {
         this.img = this.frames[this.idx];
     }
     update(delta: number): void {
-        console.log(delta)
         this.y += this.speed * (delta / 1000) + 0.5 * this.gravity * ((delta / 1000) ** 2);
 
         // Check max height flying
@@ -49,26 +47,23 @@ export class Bird extends Sprite {
             }
 
         }
-        // if (this.direction == 'down') {
-        //     this.rotation = 20;
-        // } else {
-        //     this.rotation = -20;
-        // }
         this.changeFrameCount += delta;
         if (this.changeFrameCount >= this.CHANGE_FRAME_BIRD) {
             this.changeFrame();
             this.changeFrameCount = 0;
         }
-        if (this.direction == 'up') {
-            if (this.speed >= 0) {
-                this.direction = 'down'
-            }
-        }
     }
 
-    flyUp() {
-        this.direction = 'up';
+    flyUp(): void {
         this.speed = this.FLY_SPEED;
+    }
+
+    reset(): void {
+        this.x = Constants.CANVAS_W / 5;
+        this.y = Constants.CANVAS_H / 2;
+        this.img = this.frames[0];
+        this.idx = 0;
+        this.speed = 0;
     }
 
 

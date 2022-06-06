@@ -1,20 +1,19 @@
 import { Scene } from "./Scene";
-import { PlayScene } from "./PlayScene"
 
 export class SceneManager {
-    scenes: Scene[] = [];
-    idx: number = 0;
+    static scenes: Map<string, Scene> = new Map<string, Scene>();
+    static curName: string = 'StartScene';
 
     constructor() { }
 
-    addScene(scene: Scene) {
-        this.scenes.push(scene);
+    addScene(name: string, scene: Scene) {
+        SceneManager.scenes.set(name, scene);
+    }
+    getCurrentScene(): Scene {
+        return SceneManager.scenes.get(SceneManager.curName)!;
     }
 
-    updateScene(): void {
-        this.idx += 1;
-        if (this.idx >= this.scenes.length) {
-            this.idx = 1;
-        }
+    static changeScene(name: string): void {
+        this.curName = name;
     }
 }

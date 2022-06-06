@@ -1,21 +1,20 @@
+import { InputHandler } from "../Helpers/InputHandler";
 import { Background } from "../Object/Background";
 import { FlappyImg } from "../Object/FlappyImg";
 import { PlayBtn } from "../Object/PlayBtn";
 import { Scene } from "./Scene";
-
-const CANVAS_W = 1000;
-const CANVAS_H = 500;
+import { SceneManager } from "./SceneManager";
+import { Constants } from "../Helpers/Contants";
 
 export class StartScene extends Scene {
     flappyImg: FlappyImg;
     playBtn: PlayBtn;
     backgounds: Background[] = [];
-    status: number = 1;
     constructor(areaId: string) {
         super(areaId);
         // Init background
         for (let i = 0; i < 3; i++) {
-            let bg = new Background(CANVAS_W * i, 0, CANVAS_W, CANVAS_H, 'bg')
+            let bg = new Background(Constants.CANVAS_W * i, 0, Constants.CANVAS_W, Constants.CANVAS_H, 'bg')
             this.backgounds.push(bg);
         }
         this.flappyImg = new FlappyImg(355, 100, 300, 100, 'flappy');
@@ -23,19 +22,11 @@ export class StartScene extends Scene {
         this.addObjs(this.backgounds);
         this.objs.push(this.flappyImg);
         this.objs.push(this.playBtn);
-
+        this.inputHandler();
     }
 
-    update(time: number, delta: number): number {
+    update(time: number, delta: number): void {
         this.updateBackground();
-        this.inputHandler();
-        if (this.status == -1) {
-            this.status = 1;
-            return -1;
-        } else {
-            return 1;
-        }
-        // return this.status;
     }
     updateBackground(): void {
         for (let i = 0; i < this.backgounds.length; i++) {
@@ -48,9 +39,18 @@ export class StartScene extends Scene {
 
 
     inputHandler() {
-        document.addEventListener('click', () => {
-            this.status = -1;
+        document.addEventListener('keyup', event => {
+            if (event.code === 'Enter') {
+                InputHandler.enQueue('click_play', this.startGame.bind(this))
+            }
         })
+        document.addEventListener('click', () => {
+            InputHandler.enQueue('click_play', this.startGame.bind(this))
+        })
+    }
+
+    startGame() {
+        SceneManager.changeScene('PlayScene')
     }
 
     render(scene: Scene): void {

@@ -1,4 +1,4 @@
-import { Renderer } from "../Renderer";
+import { Renderer } from "../GameEngine/Renderer";
 import { ImgObject } from "../Object/ImgObject";
 import { Score } from "../Object/Score";
 
@@ -7,7 +7,6 @@ export class Scene {
     objs: ImgObject[] = [];
     texts: Score[] = [];
     Renderer: Renderer;
-    static highestScore: number = 0;
     constructor(areaId: string) {
         this.Renderer = new Renderer(areaId);
     }

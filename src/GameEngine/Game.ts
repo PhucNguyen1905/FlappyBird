@@ -1,10 +1,13 @@
-import { SceneManager } from "./Scenes/SceneManager";
+import { InputHandler } from "../Helpers/InputHandler";
+import { SceneManager } from "../Scenes/SceneManager";
 
 export class Game {
     sceneManager: SceneManager;
     lastTime = window.performance.now();
+    inputHandler: InputHandler;
     constructor() {
         this.sceneManager = new SceneManager();
+        this.inputHandler = new InputHandler();
     }
     start() {
         requestAnimationFrame(() => this.loop())
@@ -14,11 +17,9 @@ export class Game {
         const time = window.performance.now();
         const delta = time - this.lastTime;
 
-        let status: number = this.sceneManager.scenes[this.sceneManager.idx].update(time, delta);
-        if (status == -1) {
-            this.sceneManager.updateScene();
-        }
-        this.sceneManager.scenes[this.sceneManager.idx].render(this.sceneManager.scenes[this.sceneManager.idx]);
+        this.sceneManager.getCurrentScene().update(time, delta);
+        this.inputHandler.processInput();
+        this.sceneManager.getCurrentScene().render(this.sceneManager.getCurrentScene());
 
         this.lastTime = time;
         requestAnimationFrame(() => this.loop())

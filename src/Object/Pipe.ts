@@ -1,7 +1,6 @@
 import { ImgObject } from "./ImgObject";
+import { Constants } from "../Helpers/Contants";
 
-const PIPE_H: number = 269;
-const SPACE_BET_P: number = 160;
 
 export class Pipe extends ImgObject {
     isRunning = false;
@@ -19,14 +18,14 @@ export class Pipe extends ImgObject {
     }
 
     genNewTop(canvas_w: number, idx: number): number {
-        let ranY: number = Math.floor(Math.random() * PIPE_H) - PIPE_H + 5
+        let ranY: number = Math.floor(Math.random() * Constants.PIPE_H) - Constants.PIPE_H + 5
         this.x = canvas_w;
         this.y = ranY
         return ranY;
     }
     changeBottomPipe(canvas_w: number, y: number): void {
         this.x = canvas_w;
-        this.y = PIPE_H + y + SPACE_BET_P;
+        this.y = Constants.PIPE_H + y + Constants.SPACE_BET_P;
     }
 
     update(delta: number): void {

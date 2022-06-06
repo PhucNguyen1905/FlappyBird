@@ -5,14 +5,11 @@ import { Scene } from "./Scene";
 import { Score } from "../Object/Score";
 import { Crab } from "../Object/Crab";
 import { Collision } from "../Helpers/Collision";
+import { InputHandler } from "../Helpers/InputHandler";
+import { SceneManager } from "./SceneManager";
+import { HighestText } from "../Object/HighestText";
+import { Constants } from "../Helpers/Contants";
 
-const BIRD_WIDTH = 80;
-const BIRD_HEIGHT = 70;
-const CANVAS_W = 1000;
-const CANVAS_H = 500;
-const PIPE_H: number = 269;
-const SPACE_BET_P: number = 160;
-const PIPE_TIME: number = 1500;
 
 export class PlayScene extends Scene {
     isOver = false;
@@ -30,7 +27,7 @@ export class PlayScene extends Scene {
         super(areaId);
 
         // Init bird sprite
-        this.bird = new Bird(CANVAS_W / 5, CANVAS_H / 2, 'bird1', BIRD_WIDTH, BIRD_HEIGHT, 4);
+        this.bird = new Bird(Constants.CANVAS_W / 5, Constants.CANVAS_H / 2, 'bird1', Constants.BIRD_WIDTH, Constants.BIRD_HEIGHT, 4);
 
         // Init background
         this.initBackgrounds();
@@ -41,7 +38,7 @@ export class PlayScene extends Scene {
         this.scoreText.setContent("Score: ");
 
         // Init crab
-        this.crab = new Crab(CANVAS_W - 200, CANVAS_H - 80, 50, 50, 'crab');
+        this.crab = new Crab(Constants.CANVAS_W - 200, Constants.CANVAS_H - 80, 50, 50, 'crab');
 
         // Init list of pipes
         this.initPipes();
@@ -50,11 +47,12 @@ export class PlayScene extends Scene {
 
         this.initGame();
         console.log('Playingggg')
+        this.inputHandler();
     }
 
     initBackgrounds(): void {
         for (let i = 0; i < 3; i++) {
-            let bg = new Background(CANVAS_W * i, 0, CANVAS_W, CANVAS_H, 'bg')
+            let bg = new Background(Constants.CANVAS_W * i, 0, Constants.CANVAS_W, Constants.CANVAS_H, 'bg')
             this.backgounds.push(bg);
         }
     }
@@ -62,9 +60,9 @@ export class PlayScene extends Scene {
     initPipes(): void {
         // Gen 5 couple of pipes top-bottom
         for (let i = 0; i < 4; i++) {
-            let ranY: number = Math.floor(Math.random() * PIPE_H) - PIPE_H - 10
-            let topPipe = new Pipe(CANVAS_W, ranY, 0, 0, 'pipe_down', 1)
-            let bottomPipe = new Pipe(CANVAS_W, ranY + PIPE_H + SPACE_BET_P, 0, 0, 'pipe_up')
+            let ranY: number = Math.floor(Math.random() * Constants.PIPE_H) - Constants.PIPE_H - 10
+            let topPipe = new Pipe(Constants.CANVAS_W, ranY, 0, 0, 'pipe_down', 1)
+            let bottomPipe = new Pipe(Constants.CANVAS_W, ranY + Constants.PIPE_H + Constants.SPACE_BET_P, 0, 0, 'pipe_up')
             this.pipes.push(topPipe);
             this.pipes.push(bottomPipe);
         }
@@ -86,13 +84,13 @@ export class PlayScene extends Scene {
         this.pipes = [];
         this.objs = [];
 
-        // Init bird sprite
-        this.bird = new Bird(CANVAS_W / 5, CANVAS_H / 2, 'bird1', BIRD_WIDTH, BIRD_HEIGHT, 4);
+        // Reset bird
+        this.bird.reset();
 
         // Init background
         this.initBackgrounds();
 
-        // Init score
+        // Reset score
         this.scoreText.updateScore(0);
 
         // Init list of pipes
@@ -103,20 +101,18 @@ export class PlayScene extends Scene {
 
     }
 
-    update(time: number, delta: number): any {
+    update(time: number, delta: number): void {
         if (!this.isOver) {
             this.updateBackground();
             this.bird.update(delta);
             this.updatePipe(delta);
-            this.crab.update(CANVAS_W);
+            this.crab.update(Constants.CANVAS_W);
             this.updateScore();
-            this.inputHandler();
             this.scoreText.updateScore(this.score);
             this.checkCollision();
-            return 1;
         } else {
             this.reset();
-            return -1;
+            SceneManager.changeScene('OverScene');
         }
     }
     updateBackground(): void {
@@ -133,31 +129,38 @@ export class PlayScene extends Scene {
         })
 
         this.countPipeRun += delta;
-        if (this.countPipeRun >= PIPE_TIME) {
+        if (this.countPipeRun >= Constants.PIPE_TIME) {
             this.countPipeRun = 0;
             this.runNextPipe();
         }
     }
     runNextPipe(): void {
         this.pipes[this.pipeIdx].isRunning = true;
-        let newY: number = this.pipes[this.pipeIdx].genNewTop(CANVAS_W, this.pipeIdx);
+        let newY: number = this.pipes[this.pipeIdx].genNewTop(Constants.CANVAS_W, this.pipeIdx);
         this.pipes[this.pipeIdx + 1].isRunning = true;
-        this.pipes[this.pipeIdx + 1].changeBottomPipe(CANVAS_W, newY);
+        this.pipes[this.pipeIdx + 1].changeBottomPipe(Constants.CANVAS_W, newY);
         this.pipeIdx += 2;
         if (this.pipeIdx >= 7) {
             this.pipeIdx = 0;
         }
     }
     updateScore(): void {
-        if (this.score > Scene.highestScore) {
-            Scene.highestScore = this.score;
+        if (this.score > HighestText.highestScore) {
+            HighestText.highestScore = this.score;
         }
     }
 
     inputHandler() {
-        document.addEventListener('keyup', () => {
-            this.bird.flyUp();
+        document.addEventListener('keyup', event => {
+            if (event.code === 'Space') {
+                InputHandler.enQueue('tap', this.bird.flyUp.bind(this.bird))
+            }
         })
+        // document.addEventListener('keyup', () => {
+
+        //     // console.log(123)
+        //     // this.bird.flyUp();
+        // })
     }
     render(scene: Scene): void {
         super.render(scene);
@@ -165,13 +168,13 @@ export class PlayScene extends Scene {
 
     checkCollision(): void {
         // Collision with ground
-        if (this.bird.y >= CANVAS_H - 45) {
+        if (this.bird.y >= Constants.CANVAS_H - 45) {
             this.isOver = true;
         }
         // Collison with pipes
         this.pipes.forEach((p: Pipe) => {
-            let checkXPos: Boolean = this.bird.x + (BIRD_WIDTH - 95) >= p.x && this.bird.x <= p.x + p.width - 15;
-            let checkYPos: Boolean = (this.bird.y <= p.y + PIPE_H + 20 && p.pos == 'top') || (this.bird.y + BIRD_HEIGHT - 55 >= p.y + PIPE_H + SPACE_BET_P && p.pos == 'top');
+            let checkXPos: Boolean = this.bird.x + (Constants.BIRD_WIDTH - 95) >= p.x && this.bird.x <= p.x + p.width - 15;
+            let checkYPos: Boolean = (this.bird.y <= p.y + Constants.PIPE_H + 20 && p.pos == 'top') || (this.bird.y + Constants.BIRD_HEIGHT - 55 >= p.y + Constants.PIPE_H + Constants.SPACE_BET_P && p.pos == 'top');
             if (checkXPos && checkYPos) {
                 this.isOver = true;
             }
