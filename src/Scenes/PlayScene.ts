@@ -4,6 +4,7 @@ import { Pipe } from "../Object/Pipe";
 import { Scene } from "./Scene";
 import { Score } from "../Object/Score";
 import { Crab } from "../Object/Crab";
+import { Collision } from "../Helpers/Collision";
 
 const BIRD_WIDTH = 80;
 const BIRD_HEIGHT = 70;
@@ -24,6 +25,7 @@ export class PlayScene extends Scene {
     pipes: Pipe[] = [];
     scoreText: Score;
     crab: Crab;
+    Collide: Collision;
     constructor(areaId: string) {
         super(areaId);
 
@@ -43,6 +45,8 @@ export class PlayScene extends Scene {
 
         // Init list of pipes
         this.initPipes();
+
+        this.Collide = new Collision()
 
         this.initGame();
         console.log('Playingggg')

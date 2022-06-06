@@ -31,11 +31,29 @@ export class Bird extends Sprite {
             this.y = 30;
         }
         this.speed += this.gravity * (delta / 1000);
-        if (this.direction == 'down') {
-            this.rotation = 20;
-        } else {
-            this.rotation = -20;
+
+        // Update rotation
+        if (this.speed < 0) {
+            this.rotation -= 600 * (delta / 1000);
+
+            if (this.rotation < -20) {
+                this.rotation = -20;
+            }
         }
+
+        // Rotate clockwise
+        if (this.speed >= 0) {
+            this.rotation += 300 * (delta / 1000);
+            if (this.rotation > 90) {
+                this.rotation = 90;
+            }
+
+        }
+        // if (this.direction == 'down') {
+        //     this.rotation = 20;
+        // } else {
+        //     this.rotation = -20;
+        // }
         this.changeFrameCount += delta;
         if (this.changeFrameCount >= this.CHANGE_FRAME_BIRD) {
             this.changeFrame();
