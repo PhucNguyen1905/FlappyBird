@@ -1,5 +1,5 @@
-import { Bird } from "../Object/Bird";
-import { Pipe } from "../Object/Pipe";
+import { Bird } from "../Object/ImgObject/Bird";
+import { Pipe } from "../Object/ImgObject/Pipe";
 import { Constants } from "../Helpers/Contants";
 
 

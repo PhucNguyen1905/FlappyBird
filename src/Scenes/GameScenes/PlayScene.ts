@@ -1,14 +1,14 @@
-import { Background } from "../Object/Background";
-import { Bird } from "../Object/Bird";
-import { Pipe } from "../Object/Pipe";
-import { Scene } from "./Scene";
-import { Score } from "../Object/Score";
-import { Crab } from "../Object/Crab";
-import { Collision } from "../Helpers/Collision";
-import { InputHandler } from "../Helpers/InputHandler";
-import { SceneManager } from "./SceneManager";
-import { HighestText } from "../Object/HighestText";
-import { Constants } from "../Helpers/Contants";
+import { Background } from "../../Object/ImgObject/Background";
+import { Bird } from "../../Object/ImgObject/Bird";
+import { Pipe } from "../../Object/ImgObject/Pipe";
+import { Scene } from ".././Scene";
+import { Score } from "../../Object/Score";
+import { Crab } from "../../Object/ImgObject/Crab";
+import { Collision } from "../../Helpers/Collision";
+import { InputHandler } from "../../Helpers/InputHandler";
+import { SceneManager } from ".././SceneManager";
+import { HighestText } from "../../Object/TextObject/HighestText";
+import { Constants } from "../../Helpers/Contants";
 
 
 export class PlayScene extends Scene {

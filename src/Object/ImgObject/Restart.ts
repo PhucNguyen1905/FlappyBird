@@ -1,4 +1,4 @@
-import { ImgObject } from "./ImgObject";
+import { ImgObject } from "../ImgObject";
 
 export class RestartBtn extends ImgObject {
     constructor(x: number, y: number, w: number, h: number, name: string) {

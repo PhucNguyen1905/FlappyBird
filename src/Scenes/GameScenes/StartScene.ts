@@ -1,10 +1,10 @@
-import { InputHandler } from "../Helpers/InputHandler";
-import { Background } from "../Object/Background";
-import { FlappyImg } from "../Object/FlappyImg";
-import { PlayBtn } from "../Object/PlayBtn";
-import { Scene } from "./Scene";
-import { SceneManager } from "./SceneManager";
-import { Constants } from "../Helpers/Contants";
+import { InputHandler } from "../../Helpers/InputHandler";
+import { Background } from "../../Object/ImgObject/Background";
+import { FlappyImg } from "../../Object/ImgObject/FlappyImg";
+import { PlayBtn } from "../../Object/ImgObject/PlayBtn";
+import { Scene } from ".././Scene";
+import { SceneManager } from ".././SceneManager";
+import { Constants } from "../../Helpers/Contants";
 
 export class StartScene extends Scene {
     flappyImg: FlappyImg;
@@ -18,7 +18,7 @@ export class StartScene extends Scene {
             this.backgounds.push(bg);
         }
         this.flappyImg = new FlappyImg(355, 100, 300, 100, 'flappy');
-        this.playBtn = new PlayBtn(400, 180, 180, 180, 'playbtn');
+        this.playBtn = new PlayBtn(415, 180, 180, 180, 'playbtn');
         this.addObjs(this.backgounds);
         this.objs.push(this.flappyImg);
         this.objs.push(this.playBtn);
@@ -39,13 +39,20 @@ export class StartScene extends Scene {
 
 
     inputHandler() {
+        // if (this.inputManager.getEnterPress() || this.inputManager.getMouseClick()) {
+        //     InputHandler.enQueue('click_play', this.startGame.bind(this))
+        // }
         document.addEventListener('keyup', event => {
             if (event.code === 'Enter') {
                 InputHandler.enQueue('click_play', this.startGame.bind(this))
             }
         })
-        document.addEventListener('click', () => {
-            InputHandler.enQueue('click_play', this.startGame.bind(this))
+        document.addEventListener('click', (e) => {
+            let x: number = e.clientX;
+            let y: number = e.clientY;
+            if (this.inputManager.getButtonClick(x, y, 415, 180, 180, 180)) {
+                InputHandler.enQueue('click_play', this.startGame.bind(this))
+            }
         })
     }
 

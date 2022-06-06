@@ -1,5 +1,6 @@
-import { Sprite } from "./Sprite";
-import { Constants } from "../Helpers/Contants";
+import { Sprite } from "../Sprite";
+import { Constants } from "../../Helpers/Contants";
+import { Physic } from "../../Helpers/Physic";
 
 export class Bird extends Sprite {
     // Index of frame
@@ -10,8 +11,11 @@ export class Bird extends Sprite {
     FLY_SPEED: number = -400;
     CHANGE_FRAME_BIRD: number = 150;
 
+    Physic: Physic;
+
     constructor(x: number, y: number, name: string, w: number, h: number, numFrame: number) {
         super(x, y, name, w, h, numFrame);
+        this.Physic = new Physic();
     }
 
     changeFrame(): void {
@@ -19,16 +23,16 @@ export class Bird extends Sprite {
         if (this.idx >= this.numFrame) {
             this.idx = 0;
         }
-        this.img = this.frames[this.idx];
+        this.imgKey = this.frames[this.idx];
     }
     update(delta: number): void {
-        this.y += this.speed * (delta / 1000) + 0.5 * this.gravity * ((delta / 1000) ** 2);
+        this.y = this.Physic.calDistance(this.y, this.speed, this.gravity, delta / 1000);
 
         // Check max height flying
         if (this.y <= 30) {
             this.y = 30;
         }
-        this.speed += this.gravity * (delta / 1000);
+        this.speed = this.Physic.calSpeed(this.speed, this.gravity, delta / 1000);
 
         // Update rotation
         if (this.speed < 0) {
@@ -61,9 +65,10 @@ export class Bird extends Sprite {
     reset(): void {
         this.x = Constants.CANVAS_W / 5;
         this.y = Constants.CANVAS_H / 2;
-        this.img = this.frames[0];
+        this.imgKey = this.frames[0];
         this.idx = 0;
-        this.speed = 0;
+        this.speed = -200;
+        this.rotation = 0;
     }
 
 

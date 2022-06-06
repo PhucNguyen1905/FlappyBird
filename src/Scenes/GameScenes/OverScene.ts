@@ -1,10 +1,9 @@
-import { InputHandler } from "../Helpers/InputHandler";
-import { HighestText } from "../Object/HighestText";
-import { Over } from "../Object/Over";
-import { RestartBtn } from "../Object/Restart";
-import { Score } from "../Object/Score";
-import { Scene } from "./Scene";
-import { SceneManager } from "./SceneManager";
+import { InputHandler } from "../../Helpers/InputHandler";
+import { HighestText } from "../../Object/TextObject/HighestText";
+import { Over } from "../../Object/ImgObject/Over";
+import { RestartBtn } from "../../Object/ImgObject/Restart";
+import { Scene } from ".././Scene";
+import { SceneManager } from ".././SceneManager";
 
 export class OverScene extends Scene {
     overImg: Over;
@@ -30,14 +29,17 @@ export class OverScene extends Scene {
 
 
     inputHandler() {
+        // if (this.inputManager.getEnterPress()) {
+        //     InputHandler.enQueue('restart', this.replayGame.bind(this))
+        // }
         document.addEventListener('keyup', event => {
             if (event.code === 'Enter') {
                 InputHandler.enQueue('restart', this.replayGame.bind(this))
             }
         })
-        document.addEventListener('click', () => {
-            InputHandler.enQueue('restart', this.replayGame.bind(this))
-        })
+        // document.addEventListener('click', () => {
+        //     InputHandler.enQueue('restart', this.replayGame.bind(this))
+        // })
     }
     replayGame() {
         this.highestText.updateScore(0, 1);

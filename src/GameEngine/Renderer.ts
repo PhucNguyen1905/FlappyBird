@@ -1,6 +1,7 @@
 import { ImgObject } from "../Object/ImgObject";
 import { Score } from "../Object/Score";
 import { Scene } from "../Scenes/Scene";
+import { ImgLoader } from "./ImgLoader";
 
 const TO_RADIANS = Math.PI / 180;
 
@@ -16,7 +17,7 @@ export class Renderer {
         this.ctx.translate(obj.x, obj.y);
 
         this.ctx.rotate(obj.rotation * TO_RADIANS);
-        this.ctx.drawImage(obj.img, -(obj.width / 2), -(obj.height / 2), obj.width, obj.height);
+        this.ctx.drawImage(ImgLoader.getImage(obj.imgKey), -(obj.width / 2), -(obj.height / 2), obj.width, obj.height);
 
         this.ctx.restore();
     }
@@ -28,7 +29,7 @@ export class Renderer {
             if (obj.rotation != 0) {
                 this.drawRotatedImage(obj);
             } else {
-                this.ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height);
+                this.ctx.drawImage(ImgLoader.getImage(obj.imgKey), obj.x, obj.y, obj.width, obj.height);
             }
         })
         scene.texts.forEach((text: Score) => {

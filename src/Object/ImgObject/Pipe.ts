@@ -1,14 +1,14 @@
-import { ImgObject } from "./ImgObject";
-import { Constants } from "../Helpers/Contants";
-
+import { ImgObject } from "../ImgObject";
+import { Constants } from "../../Helpers/Contants";
+import { ImgLoader } from "../../GameEngine/ImgLoader";
 
 export class Pipe extends ImgObject {
     isRunning = false;
     pos: string;
     constructor(x: number, y: number, w: number, h: number, name: string, pos?: number) {
         super(x, y, w, h, name);
-        this.width = this.img.width;
-        this.height = this.img.height;
+        this.width = ImgLoader.getImage(this.imgKey).width;
+        this.height = ImgLoader.getImage(this.imgKey).height;
         let p = pos ? true : false;
         if (p) {
             this.pos = 'top'

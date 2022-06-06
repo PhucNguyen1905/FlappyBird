@@ -1,7 +1,8 @@
+import { ImgLoader } from "../GameEngine/ImgLoader";
 import { ImgObject } from "./ImgObject";
 
 export class Sprite extends ImgObject {
-    frames: HTMLImageElement[] = []
+    frames: string[] = []
     idx: number = 0;
     numFrame: number = 0;
     imgName: string;
@@ -13,13 +14,14 @@ export class Sprite extends ImgObject {
         this.numFrame = numFrame ? numFrame : 1;
         this.imgName = name.slice(0, name.length - 1);
         this.initFrames();
-        this.img = this.frames[this.idx];
+        this.imgKey = this.frames[this.idx];
     }
     initFrames(): void {
         for (let i = 1; i <= this.numFrame; i++) {
-            let img = new Image();
-            img.src = 'images/' + this.imgName + i + '.png';
-            this.frames.push(img);
+
+            let key: string = this.imgName + i;
+            this.frames.push(key);
+            ImgLoader.addToLibrary(key);
         }
     }
 }

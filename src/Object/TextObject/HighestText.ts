@@ -1,4 +1,4 @@
-import { Score } from "./Score";
+import { Score } from "../Score";
 
 export class HighestText extends Score {
     static highestScore: number = 0;

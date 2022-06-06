@@ -1,7 +1,7 @@
 import { Game } from './GameEngine/Game'
-import { OverScene } from './Scenes/OverScene';
-import { PlayScene } from './Scenes/PlayScene';
-import { StartScene } from './Scenes/StartScene';
+import { OverScene } from './Scenes/GameScenes/OverScene';
+import { PlayScene } from './Scenes/GameScenes/PlayScene';
+import { StartScene } from './Scenes/GameScenes/StartScene';
 
 class FlappyBird extends Game {
 
