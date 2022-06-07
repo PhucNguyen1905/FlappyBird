@@ -5,11 +5,10 @@ import { Scene } from "../../GameEngine/Scene";
 import { Score } from "../Object/Score";
 import { Crab } from "../Object/ImgObject/Crab";
 import { Collision } from "../Collision";
-import { InputHandler } from "../../GameEngine/Helpers/InputHandler";
-import { SceneManager } from "../../GameEngine/SceneManager";
 import { HighestText } from "../Object/TextObject/HighestText";
 import { Constants } from "../Contants";
 import { Game } from "../../GameEngine/Game";
+import { ScoreController } from "../ScoreController";
 
 
 export class PlayScene extends Scene {
@@ -24,8 +23,10 @@ export class PlayScene extends Scene {
     scoreText: Score;
     crab: Crab;
     Collide: Collision;
-    constructor(areaId: string, game: Game) {
+    scoreController: ScoreController;
+    constructor(areaId: string, game: Game, scoreController: ScoreController) {
         super(areaId, game);
+        this.scoreController = scoreController;
 
         // Init bird sprite
         this.bird = new Bird(Constants.CANVAS_W / 5, Constants.CANVAS_H / 2, 'bird1', Constants.BIRD_WIDTH, Constants.BIRD_HEIGHT, 4);
@@ -146,9 +147,7 @@ export class PlayScene extends Scene {
         }
     }
     updateScore(): void {
-        if (this.score > HighestText.highestScore) {
-            HighestText.highestScore = this.score;
-        }
+        this.scoreController.setHighest(this.score);
     }
 
     inputHandler() {

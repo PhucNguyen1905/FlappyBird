@@ -1,9 +1,7 @@
-import { InputHandler } from "../../GameEngine/Helpers/InputHandler";
 import { Background } from "../Object/ImgObject/Background";
 import { FlappyImg } from "../Object/ImgObject/FlappyImg";
 import { PlayBtn } from "../Object/ImgObject/PlayBtn";
 import { Scene } from "../../GameEngine/Scene";
-import { SceneManager } from "../../GameEngine/SceneManager";
 import { Constants } from "../Contants";
 import { Game } from "../../GameEngine/Game";
 
