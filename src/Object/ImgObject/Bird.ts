@@ -7,7 +7,7 @@ export class Bird extends Sprite {
     idx: number = 0;
 
     speed: number = 0;
-    gravity: number = 980;
+    gravity: number = 1000;
     FLY_SPEED: number = -400;
     CHANGE_FRAME_BIRD: number = 150;
 
@@ -36,7 +36,7 @@ export class Bird extends Sprite {
 
         // Update rotation
         if (this.speed < 0) {
-            this.rotation -= 600 * (delta / 1000);
+            this.rotation -= 650 * (delta / 1000);
 
             if (this.rotation < -20) {
                 this.rotation = -20;
