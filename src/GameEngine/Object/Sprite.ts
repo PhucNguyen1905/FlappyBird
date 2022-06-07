@@ -1,4 +1,3 @@
-import { ImgLoader } from "../GameEngine/ImgLoader";
 import { ImgObject } from "./ImgObject";
 
 export class Sprite extends ImgObject {
@@ -21,7 +20,6 @@ export class Sprite extends ImgObject {
 
             let key: string = this.imgName + i;
             this.frames.push(key);
-            ImgLoader.addToLibrary(key);
         }
     }
 }

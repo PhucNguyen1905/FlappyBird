@@ -1,14 +1,15 @@
-import { Background } from "../../Object/ImgObject/Background";
-import { Bird } from "../../Object/ImgObject/Bird";
-import { Pipe } from "../../Object/ImgObject/Pipe";
-import { Scene } from ".././Scene";
-import { Score } from "../../Object/Score";
-import { Crab } from "../../Object/ImgObject/Crab";
-import { Collision } from "../../Helpers/Collision";
-import { InputHandler } from "../../Helpers/InputHandler";
-import { SceneManager } from ".././SceneManager";
-import { HighestText } from "../../Object/TextObject/HighestText";
-import { Constants } from "../../Helpers/Contants";
+import { Background } from "../Object/ImgObject/Background";
+import { Bird } from "../Object/ImgObject/Bird";
+import { Pipe } from "../Object/ImgObject/Pipe";
+import { Scene } from "../../GameEngine/Scene";
+import { Score } from "../Object/Score";
+import { Crab } from "../Object/ImgObject/Crab";
+import { Collision } from "../Collision";
+import { InputHandler } from "../../GameEngine/Helpers/InputHandler";
+import { SceneManager } from "../../GameEngine/SceneManager";
+import { HighestText } from "../Object/TextObject/HighestText";
+import { Constants } from "../Contants";
+import { Game } from "../../GameEngine/Game";
 
 
 export class PlayScene extends Scene {
@@ -23,8 +24,8 @@ export class PlayScene extends Scene {
     scoreText: Score;
     crab: Crab;
     Collide: Collision;
-    constructor(areaId: string) {
-        super(areaId);
+    constructor(areaId: string, game: Game) {
+        super(areaId, game);
 
         // Init bird sprite
         this.bird = new Bird(Constants.CANVAS_W / 5, Constants.CANVAS_H / 2, 'bird1', Constants.BIRD_WIDTH, Constants.BIRD_HEIGHT, 4);
@@ -112,7 +113,7 @@ export class PlayScene extends Scene {
             this.checkCollision();
         } else {
             this.reset();
-            SceneManager.changeScene('OverScene');
+            this.sceneManager.changeScene('OverScene');
         }
     }
     updateBackground(): void {
@@ -153,7 +154,7 @@ export class PlayScene extends Scene {
     inputHandler() {
         document.addEventListener('keyup', event => {
             if (event.code === 'Space') {
-                InputHandler.enQueue('tap', this.bird.flyUp.bind(this.bird))
+                this.inputManager.enQueue('tap', this.bird.flyUp.bind(this.bird))
             }
         })
         // document.addEventListener('keyup', () => {

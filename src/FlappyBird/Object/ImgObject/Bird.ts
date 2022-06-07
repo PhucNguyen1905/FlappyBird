@@ -1,6 +1,6 @@
-import { Sprite } from "../Sprite";
-import { Constants } from "../../Helpers/Contants";
-import { Physic } from "../../Helpers/Physic";
+import { Sprite } from "../../../GameEngine/Object/Sprite";
+import { Constants } from "../../Contants";
+import { Physic } from "../../../GameEngine/Helpers/Physic";
 
 export class Bird extends Sprite {
     // Index of frame
@@ -26,17 +26,18 @@ export class Bird extends Sprite {
         this.imgKey = this.frames[this.idx];
     }
     update(delta: number): void {
-        this.y = this.Physic.calDistance(this.y, this.speed, this.gravity, delta / 1000);
+        const dt = delta / 1000;
+        this.y = this.Physic.calDistance(this.y, this.speed, this.gravity, dt);
 
         // Check max height flying
         if (this.y <= 30) {
             this.y = 30;
         }
-        this.speed = this.Physic.calSpeed(this.speed, this.gravity, delta / 1000);
+        this.speed = this.Physic.calSpeed(this.speed, this.gravity, dt);
 
         // Update rotation
         if (this.speed < 0) {
-            this.rotation -= 650 * (delta / 1000);
+            this.rotation -= 650 * (dt);
 
             if (this.rotation < -20) {
                 this.rotation = -20;
@@ -45,7 +46,7 @@ export class Bird extends Sprite {
 
         // Rotate clockwise
         if (this.speed >= 0) {
-            this.rotation += 300 * (delta / 1000);
+            this.rotation += 300 * (dt);
             if (this.rotation > 90) {
                 this.rotation = 90;
             }

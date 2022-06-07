@@ -1,4 +1,4 @@
-import { TextObject } from "./TextObject";
+import { TextObject } from "../../GameEngine/Object/TextObject";
 
 export class Score extends TextObject {
     final: string = '';

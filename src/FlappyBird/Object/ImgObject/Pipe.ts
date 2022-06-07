@@ -1,19 +1,20 @@
-import { ImgObject } from "../ImgObject";
-import { Constants } from "../../Helpers/Contants";
-import { ImgLoader } from "../../GameEngine/ImgLoader";
+import { ImgObject } from "../../../GameEngine/Object/ImgObject";
+import { Constants } from "../../Contants";
 
 export class Pipe extends ImgObject {
     isRunning = false;
     pos: string;
     constructor(x: number, y: number, w: number, h: number, name: string, pos?: number) {
         super(x, y, w, h, name);
-        this.width = ImgLoader.getImage(this.imgKey).width;
-        this.height = ImgLoader.getImage(this.imgKey).height;
         let p = pos ? true : false;
         if (p) {
             this.pos = 'top'
+            this.width = Constants.PIPE_TOP_W;
+            this.height = Constants.PIPE_TOP_H;
         } else {
             this.pos = 'bottom'
+            this.width = Constants.PIPE_BOT_W;
+            this.height = Constants.PIPE_BOT_H;
         }
     }
 
@@ -30,12 +31,12 @@ export class Pipe extends ImgObject {
 
     update(delta: number): void {
         if (this.isRunning) {
-            this.x -= 4;
+            this.x -= 4 * (delta / 16.67);
         }
     }
 
     isPassed(): Boolean {
-        if (this.x == 80 && this.pos == 'top') {
+        if (this.x <= 80 && this.x >= 78 && this.pos == 'top') {
             return true;
         }
         return false;

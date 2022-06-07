@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: "./src/FlappyBird.ts",
+    entry: "./src/FlappyBird/FlappyBird.ts",
     module: {
         rules: [
             {

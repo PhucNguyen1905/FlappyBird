@@ -1,17 +1,18 @@
-import { InputHandler } from "../../Helpers/InputHandler";
-import { Background } from "../../Object/ImgObject/Background";
-import { FlappyImg } from "../../Object/ImgObject/FlappyImg";
-import { PlayBtn } from "../../Object/ImgObject/PlayBtn";
-import { Scene } from ".././Scene";
-import { SceneManager } from ".././SceneManager";
-import { Constants } from "../../Helpers/Contants";
+import { InputHandler } from "../../GameEngine/Helpers/InputHandler";
+import { Background } from "../Object/ImgObject/Background";
+import { FlappyImg } from "../Object/ImgObject/FlappyImg";
+import { PlayBtn } from "../Object/ImgObject/PlayBtn";
+import { Scene } from "../../GameEngine/Scene";
+import { SceneManager } from "../../GameEngine/SceneManager";
+import { Constants } from "../Contants";
+import { Game } from "../../GameEngine/Game";
 
 export class StartScene extends Scene {
     flappyImg: FlappyImg;
     playBtn: PlayBtn;
     backgounds: Background[] = [];
-    constructor(areaId: string) {
-        super(areaId);
+    constructor(areaId: string, game: Game) {
+        super(areaId, game);
         // Init background
         for (let i = 0; i < 3; i++) {
             let bg = new Background(Constants.CANVAS_W * i, 0, Constants.CANVAS_W, Constants.CANVAS_H, 'bg')
@@ -44,20 +45,20 @@ export class StartScene extends Scene {
         // }
         document.addEventListener('keyup', event => {
             if (event.code === 'Enter') {
-                InputHandler.enQueue('click_play', this.startGame.bind(this))
+                this.inputManager.enQueue('click_play', this.startGame.bind(this))
             }
         })
         document.addEventListener('click', (e) => {
             let x: number = e.clientX;
             let y: number = e.clientY;
             if (this.inputManager.getButtonClick(x, y, 415, 180, 180, 180)) {
-                InputHandler.enQueue('click_play', this.startGame.bind(this))
+                this.inputManager.enQueue('click_play', this.startGame.bind(this))
             }
         })
     }
 
     startGame() {
-        SceneManager.changeScene('PlayScene')
+        this.sceneManager.changeScene('PlayScene')
     }
 
     render(scene: Scene): void {
