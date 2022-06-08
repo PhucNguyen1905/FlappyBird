@@ -2,7 +2,6 @@ import { Background } from "../Object/ImgObject/Background";
 import { Bird } from "../Object/ImgObject/Bird";
 import { Pipe } from "../Object/ImgObject/Pipe";
 import { Scene } from "../../GameEngine/Scene";
-import { Score } from "../Object/Score";
 import { Crab } from "../Object/ImgObject/Crab";
 import { Collision } from "../Collision";
 import { Constants } from "../Contants";
@@ -16,11 +15,9 @@ export class PlayScene extends Scene {
     pipeIdx: number = 0;
 
     countPipeRun: number = 0;
-    score: number = 0;
     bird: Bird;
     backgounds: Background[] = [];
     pipes: Pipe[] = [];
-    scoreText: Score;
     crab: Crab;
     Collide: Collision;
     scoreController: ScoreController;
@@ -33,11 +30,6 @@ export class PlayScene extends Scene {
 
         // Init background
         this.initBackgrounds();
-
-        // Init score
-        this.scoreText = new Score(10, 50, 0, 0);
-        this.scoreText.setTextStyle("30px Arial", "#ffffff");
-        this.scoreText.setContent("Score: ");
 
         // Init crab
         this.crab = new Crab(Constants.CANVAS_W - 200, Constants.CANVAS_H - 80, 50, 50, 'crab');
@@ -75,14 +67,14 @@ export class PlayScene extends Scene {
         this.objs.push(this.crab);
         this.objs.push(this.bird);
         this.addObjs(this.pipes);
-        this.objs.push(this.scoreText);
+        this.objs.push(this.scoreController.getScoreText());
     }
     reset(): void {
         this.isOver = false;
         this.isCollided = false;
         this.pipeIdx = 0;
         this.countPipeRun = 0;
-        this.score = 0;
+        this.scoreController.resetScore();
         this.backgounds = [];
         this.pipes = [];
         this.objs = [];
@@ -94,7 +86,7 @@ export class PlayScene extends Scene {
         this.initBackgrounds();
 
         // Reset score
-        this.scoreText.updateScore(0);
+        this.scoreController.resetScore();
 
         // Init list of pipes
         this.initPipes();
@@ -111,7 +103,7 @@ export class PlayScene extends Scene {
             this.updatePipe(delta);
             this.crab.update(Constants.CANVAS_W);
             this.updateScore();
-            this.scoreText.updateScore(this.score);
+            this.scoreController.updateCurText();
             this.checkCollision();
         } else if (this.isCollided) {
             this.bird.falling();
@@ -132,7 +124,7 @@ export class PlayScene extends Scene {
         this.pipes.forEach((p) => {
             p.update(delta);
             if (p.isPassed()) {
-                this.score += 1;
+                this.scoreController.incScore();
             }
         })
 
@@ -153,7 +145,7 @@ export class PlayScene extends Scene {
         }
     }
     updateScore(): void {
-        this.scoreController.setHighest(this.score);
+        this.scoreController.setHighest();
     }
 
     pauseGame(): void {
