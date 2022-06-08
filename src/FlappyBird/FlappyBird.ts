@@ -13,9 +13,9 @@ class FlappyBird extends Game {
 }
 
 let flappyBird = new FlappyBird();
-let startScene = new StartScene('gameArea', flappyBird);
-let playScene = new PlayScene('gameArea', flappyBird, flappyBird.scoreController);
-let overScene = new OverScene('gameArea', flappyBird, flappyBird.scoreController);
+let startScene = new StartScene('gameArea', 'StartScene', flappyBird);
+let playScene = new PlayScene('gameArea', 'PlayScene', flappyBird, flappyBird.scoreController);
+let overScene = new OverScene('gameArea', 'OverScene', flappyBird, flappyBird.scoreController);
 flappyBird.sceneManager.addScene('StartScene', startScene);
 flappyBird.sceneManager.addScene('PlayScene', playScene);
 flappyBird.sceneManager.addScene('OverScene', overScene);

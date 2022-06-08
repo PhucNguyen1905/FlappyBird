@@ -13,6 +13,9 @@ export class SceneManager {
     getCurrentScene(): Scene {
         return this.scenes.get(this.curName)!;
     }
+    getCurrentName(): string {
+        return this.curName;
+    }
 
     changeScene(name: string): void {
         this.curName = name;

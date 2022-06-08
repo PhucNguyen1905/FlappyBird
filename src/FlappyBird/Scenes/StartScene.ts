@@ -9,8 +9,8 @@ export class StartScene extends Scene {
     flappyImg: FlappyImg;
     playBtn: PlayBtn;
     backgounds: Background[] = [];
-    constructor(areaId: string, game: Game) {
-        super(areaId, game);
+    constructor(areaId: string, name: string, game: Game) {
+        super(areaId, name, game);
         // Init background
         for (let i = 0; i < 3; i++) {
             let bg = new Background(Constants.CANVAS_W * i, 0, Constants.CANVAS_W, Constants.CANVAS_H, 'bg')
@@ -38,19 +38,13 @@ export class StartScene extends Scene {
 
 
     inputHandler() {
-        // if (this.inputManager.getEnterPress() || this.inputManager.getMouseClick()) {
-        //     InputHandler.enQueue('click_play', this.startGame.bind(this))
-        // }
-        document.addEventListener('keyup', event => {
-            if (event.code === 'Enter') {
-                this.inputManager.enQueue('click_play', this.startGame.bind(this))
-            }
-        })
+        this.inputManager.onEnterDown(this.startGame.bind(this), 'StartScene');
+        this.inputManager.onClickBtn(this.startGame.bind(this), 'StartScene');
         document.addEventListener('click', (e) => {
             let x: number = e.clientX;
             let y: number = e.clientY;
-            if (this.inputManager.getButtonClick(x, y, 415, 180, 180, 180)) {
-                this.inputManager.enQueue('click_play', this.startGame.bind(this))
+            if (this.inputManager.getButtonClick(x, y, 415, 120, 180, 180) && this.sceneName == this.sceneManager.getCurrentName()) {
+                this.inputManager.enQueue('Click');
             }
         })
     }

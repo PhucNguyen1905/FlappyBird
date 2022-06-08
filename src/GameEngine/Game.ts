@@ -12,6 +12,7 @@ export class Game {
     constructor() {
         this.sceneManager = new SceneManager();
         this.inputManager = new InputHandler();
+        this.inputManager.sceneManager = this.sceneManager;
         this.loader = new Loader();
     }
     async loadAssets() {

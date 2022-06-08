@@ -1,42 +1,50 @@
+import { SceneManager } from "../SceneManager";
 
 export class InputHandler {
-    queue: [{ [key: string]: Function }]
+    queue: string[] = [];
+    callbacks: { [key: string]: [[string, Function]] } = {};
+    sceneManager!: SceneManager;
+
     constructor() {
-        this.queue = [{}];
-        this.queue.shift();
+        this.listenEvent();
     }
 
-    enQueue(key: string, callback: Function): void {
-        this.queue.push({ [key]: callback });
+    private listenEvent() {
+        window.addEventListener('keydown', (e) => {
+            if (e.code == 'Space') {
+                this.queue.push('Space');
+            }
+            if (e.code == 'Enter') {
+                this.queue.push('Enter');
+            }
+        })
+    }
+    enQueue(event: string): void {
+        this.queue.push(event);
     }
     processInput() {
-        while (this.queue.length > 0) {
-            let ele: { [key: string]: Function } = this.queue.shift()!;
-            Object.values(ele)[0]();
+        for (const key of this.queue) {
+            console.log(this.queue)
+            console.log(this.callbacks)
+            this.callbacks[key].forEach(c => {
+                if (c[0] == this.sceneManager.getCurrentName()) {
+                    c[1]();
+                }
+            });
         }
+        this.queue = [];
     }
-
-    getSpacePress(): boolean {
-        document.addEventListener('keyup', event => {
-            if (event.code === 'Space') {
-                return true;
-            }
-        })
-        return false;
+    onSpaceDown(callback: Function, sceneName: string) {
+        this.callbacks['Space'] = this.callbacks['Space'] || [];
+        this.callbacks['Space'].push([sceneName, callback]);
     }
-    getEnterPress(): boolean {
-        document.addEventListener('keyup', event => {
-            if (event.code === 'Enter') {
-                return true;
-            }
-        })
-        return false;
+    onEnterDown(callback: Function, sceneName: string) {
+        this.callbacks['Enter'] = this.callbacks['Enter'] || [];
+        this.callbacks['Enter'].push([sceneName, callback]);
     }
-    getMouseClick(): boolean {
-        document.addEventListener('click', () => {
-            return true;
-        })
-        return false;
+    onClickBtn(callback: Function, sceneName: string) {
+        this.callbacks['Click'] = this.callbacks['Click'] || [];
+        this.callbacks['Click'].push([sceneName, callback]);
     }
 
     getButtonClick(x: number, y: number, x1: number, y1: number, w: number, h: number): boolean {
@@ -45,6 +53,5 @@ export class InputHandler {
         }
         return false;
     }
-
 
 }

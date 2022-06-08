@@ -10,8 +10,8 @@ export class OverScene extends Scene {
     restartBtn: RestartBtn;
     highestText: HighestText;
     scoreController: ScoreController;
-    constructor(areaId: string, game: Game, scoreController: ScoreController) {
-        super(areaId, game);
+    constructor(areaId: string, name: string, game: Game, scoreController: ScoreController) {
+        super(areaId, name, game);
         this.scoreController = scoreController;
         this.overImg = new Over(350, 100, 300, 100, 'over');
         this.highestText = this.scoreController.highestText;
@@ -31,17 +31,15 @@ export class OverScene extends Scene {
 
 
     inputHandler() {
-        // if (this.inputManager.getEnterPress()) {
-        //     InputHandler.enQueue('restart', this.replayGame.bind(this))
-        // }
-        document.addEventListener('keyup', event => {
-            if (event.code === 'Enter') {
-                this.inputManager.enQueue('restart', this.replayGame.bind(this))
+        this.inputManager.onEnterDown(this.replayGame.bind(this), 'OverScene');
+        this.inputManager.onClickBtn(this.replayGame.bind(this), 'OverScene');
+        document.addEventListener('click', (e) => {
+            let x: number = e.clientX;
+            let y: number = e.clientY;
+            if (this.inputManager.getButtonClick(x, y, 390, 270, 220, 90) && this.sceneName == this.sceneManager.getCurrentName()) {
+                this.inputManager.enQueue('Click');
             }
         })
-        // document.addEventListener('click', () => {
-        //     InputHandler.enQueue('restart', this.replayGame.bind(this))
-        // })
     }
     replayGame() {
         this.highestText.updateScore(0, 1);

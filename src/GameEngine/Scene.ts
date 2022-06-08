@@ -10,14 +10,16 @@ import { SceneManager } from "./SceneManager";
 export class Scene {
     objs: ImgObject[] = [];
     texts: Score[] = [];
+    sceneName: string;
     Renderer: Renderer;
     game: Game;
     loader: Loader;
     inputManager: InputHandler;
     sceneManager!: SceneManager;
 
-    constructor(areaId: string, game: Game) {
+    constructor(areaId: string, sceneName: string, game: Game) {
         this.Renderer = new Renderer(areaId);
+        this.sceneName = sceneName;
         this.game = game;
         this.inputManager = this.game.inputManager;
         this.loader = this.game.loader;

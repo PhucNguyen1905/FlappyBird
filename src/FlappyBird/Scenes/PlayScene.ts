@@ -5,7 +5,6 @@ import { Scene } from "../../GameEngine/Scene";
 import { Score } from "../Object/Score";
 import { Crab } from "../Object/ImgObject/Crab";
 import { Collision } from "../Collision";
-import { HighestText } from "../Object/TextObject/HighestText";
 import { Constants } from "../Contants";
 import { Game } from "../../GameEngine/Game";
 import { ScoreController } from "../ScoreController";
@@ -24,8 +23,8 @@ export class PlayScene extends Scene {
     crab: Crab;
     Collide: Collision;
     scoreController: ScoreController;
-    constructor(areaId: string, game: Game, scoreController: ScoreController) {
-        super(areaId, game);
+    constructor(areaId: string, name: string, game: Game, scoreController: ScoreController) {
+        super(areaId, name, game);
         this.scoreController = scoreController;
 
         // Init bird sprite
@@ -151,11 +150,12 @@ export class PlayScene extends Scene {
     }
 
     inputHandler() {
-        document.addEventListener('keyup', event => {
-            if (event.code === 'Space') {
-                this.inputManager.enQueue('tap', this.bird.flyUp.bind(this.bird))
-            }
-        })
+        this.inputManager.onSpaceDown(this.bird.flyUp.bind(this.bird), 'PlayScene');
+        // document.addEventListener('keydown', event => {
+        //     if (event.code == 'Space' && this.sceneName == this.sceneManager.getCurrentName()) {
+        //         this.inputManager.onSpaceDown(this.bird.flyUp);
+        //     }
+        // })
         // document.addEventListener('keyup', () => {
 
         //     // console.log(123)
