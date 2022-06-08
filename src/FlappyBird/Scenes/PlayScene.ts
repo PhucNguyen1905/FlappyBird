@@ -156,9 +156,14 @@ export class PlayScene extends Scene {
         this.scoreController.setHighest(this.score);
     }
 
+    pauseGame(): void {
+        this.sceneManager.changeScene('PauseScene');
+    }
+
     inputHandler() {
         this.inputManager.onSpaceDown(this.bird.flyUp.bind(this.bird), 'PlayScene');
         this.inputManager.onClickBtn(this.bird.flyUp.bind(this.bird), 'PlayScene');
+        this.inputManager.onKeyPDown(this.pauseGame.bind(this), 'PlayScene');
         document.addEventListener('click', (e) => {
             if (this.sceneName == this.sceneManager.getCurrentName()) {
                 this.inputManager.enQueue('Click');
@@ -168,6 +173,8 @@ export class PlayScene extends Scene {
     render(scene: Scene): void {
         super.render(scene);
     }
+
+
     checkReachGround(): void {
         if (this.bird.y >= Constants.CANVAS_H - 45) {
             this.isOver = true;

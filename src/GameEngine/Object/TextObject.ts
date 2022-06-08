@@ -1,3 +1,4 @@
+import { Scene } from "../Scene";
 import { GameObject } from "./GameObject";
 
 export class TextObject extends GameObject {
@@ -13,6 +14,12 @@ export class TextObject extends GameObject {
     }
     setContent(content: string) {
         this.content = content;
+    }
+
+    render(ctx: CanvasRenderingContext2D, scene: Scene) {
+        ctx.font = this.font;
+        ctx.fillStyle = this.style;
+        ctx.fillText(this.content, this.x, this.y)
     }
 
 

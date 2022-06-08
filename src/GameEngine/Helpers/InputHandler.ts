@@ -17,6 +17,9 @@ export class InputHandler {
             if (e.code == 'Enter') {
                 this.queue.push('Enter');
             }
+            if (e.code == 'KeyP') {
+                this.queue.push('KeyP');
+            }
         })
     }
     enQueue(event: string): void {
@@ -43,6 +46,14 @@ export class InputHandler {
     onClickBtn(callback: Function, sceneName: string) {
         this.callbacks['Click'] = this.callbacks['Click'] || [];
         this.callbacks['Click'].push([sceneName, callback]);
+    }
+    onKeyPDown(callback: Function, sceneName: string) {
+        this.callbacks['KeyP'] = this.callbacks['KeyP'] || [];
+        this.callbacks['KeyP'].push([sceneName, callback]);
+    }
+    onKeyCDown(callback: Function, sceneName: string) {
+        this.callbacks['KeyC'] = this.callbacks['KeyC'] || [];
+        this.callbacks['KeyC'].push([sceneName, callback]);
     }
 
     getButtonClick(x: number, y: number, x1: number, y1: number, w: number, h: number): boolean {
