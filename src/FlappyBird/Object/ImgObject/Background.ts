@@ -8,7 +8,7 @@ export class Background extends ImgObject {
     update(len: number): void {
         this.x -= 1;
         if (this.x <= -1 * this.width) {
-            this.x = this.width * len;
+            this.x = this.width * (len - 1);
         }
     }
 

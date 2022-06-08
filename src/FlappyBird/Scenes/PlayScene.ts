@@ -168,21 +168,19 @@ export class PlayScene extends Scene {
 
 
     checkReachGround(): void {
-        if (this.bird.y >= Constants.CANVAS_H - 45) {
+        if (this.bird.y >= Constants.CANVAS_H - 80) {
             this.isOver = true;
             this.isCollided = false;
         }
     }
     checkCollision(): void {
         // Collision with ground
-        if (this.bird.y >= Constants.CANVAS_H - 45) {
+        if (this.bird.y >= Constants.CANVAS_H - 80) {
             this.isOver = true;
         }
         // Collison with pipes
         this.pipes.forEach((p: Pipe) => {
-            let checkXPos: Boolean = this.bird.x + (Constants.BIRD_WIDTH - 95) >= p.x && this.bird.x <= p.x + p.width - 15;
-            let checkYPos: Boolean = (this.bird.y <= p.y + Constants.PIPE_H + 20 && p.pos == 'top') || (this.bird.y + Constants.BIRD_HEIGHT - 55 >= p.y + Constants.PIPE_H + Constants.SPACE_BET_P && p.pos == 'top');
-            if (checkXPos && checkYPos) {
+            if (this.Collide.isCollided(this.bird, p)) {
                 this.isCollided = true;
             }
         })

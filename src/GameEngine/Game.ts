@@ -16,14 +16,17 @@ export class Game {
         this.loader = new Loader();
     }
     async loadAssets() {
+        const promises = []
         for (let i = 0; i < Constants.ImgKeys.length; i++) {
-            await this.loader.loadImage(Constants.ImgKeys[i]);
+            const loadImagePromise = this.loader.loadImage(Constants.ImgKeys[i]);
+            promises.push(loadImagePromise)
         }
-        this.start();
-
+        await Promise.all(promises)
     }
     startGame() {
-        this.loadAssets()
+        this.loadAssets().then(() => {
+            this.start()
+        })
     }
     start() {
         requestAnimationFrame(() => this.loop())

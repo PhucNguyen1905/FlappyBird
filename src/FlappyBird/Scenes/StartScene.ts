@@ -25,14 +25,11 @@ export class StartScene extends Scene {
     }
 
     update(time: number, delta: number): void {
-        this.updateBackground();
+        this.updateBackground(delta);
     }
-    updateBackground(): void {
+    updateBackground(delta: number): void {
         for (let i = 0; i < this.backgounds.length; i++) {
-            this.backgounds[i].x -= 1;
-            if (this.backgounds[i].x <= -1 * this.backgounds[i].width) {
-                this.backgounds[i].x = this.backgounds[i].width * 3;
-            }
+            this.backgounds[i].update(this.backgounds.length);
         }
     }
 

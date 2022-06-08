@@ -31,8 +31,8 @@ export class Bird extends Sprite {
         this.y = this.Physic.calDistance(this.y, this.speed, this.gravity, dt);
 
         // Check max height flying
-        if (this.y <= 30) {
-            this.y = 30;
+        if (this.y <= 5) {
+            this.y = 5;
         }
         this.speed = this.Physic.calSpeed(this.speed, this.gravity, dt);
 

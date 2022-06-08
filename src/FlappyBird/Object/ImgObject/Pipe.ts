@@ -20,8 +20,8 @@ export class Pipe extends ImgObject {
 
     genNewTop(canvas_w: number, idx: number): number {
         let ranY: number = Math.floor(Math.random() * Constants.PIPE_H) - Constants.PIPE_H + 5;
-        if (ranY <= -Constants.PIPE_H + 10) {
-            ranY += 10;
+        if (ranY <= -Constants.PIPE_H + 40) {
+            ranY += 30;
         }
         this.x = canvas_w;
         this.y = ranY
