@@ -1,4 +1,5 @@
 export const Constants = {
+    TO_RADIANS: Math.PI / 180,
     BIRD_WIDTH: 80,
     BIRD_HEIGHT: 70,
     CANVAS_W: 1000,

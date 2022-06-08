@@ -3,13 +3,12 @@ import { Loader } from "../GameEngine/Loader";
 import { Renderer } from "../GameEngine/Renderer";
 import { InputHandler } from "./Helpers/InputHandler";
 import { ImgObject } from "./Object/ImgObject";
-import { Score } from "../FlappyBird/Object/Score";
 import { SceneManager } from "./SceneManager";
+import { GameObject } from "./Object/GameObject";
 
 
 export class Scene {
-    objs: ImgObject[] = [];
-    texts: Score[] = [];
+    objs: GameObject[] = [];
     sceneName: string;
     Renderer: Renderer;
     game: Game;

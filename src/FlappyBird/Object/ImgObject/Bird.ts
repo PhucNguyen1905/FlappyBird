@@ -13,6 +13,7 @@ export class Bird extends Sprite {
 
     Physic: Physic;
 
+    isFalling = false;
     constructor(x: number, y: number, name: string, w: number, h: number, numFrame: number) {
         super(x, y, name, w, h, numFrame);
         this.Physic = new Physic();
@@ -60,7 +61,14 @@ export class Bird extends Sprite {
     }
 
     flyUp(): void {
-        this.speed = this.FLY_SPEED;
+        if (!this.isFalling) {
+            this.speed = this.FLY_SPEED;
+        }
+    }
+    falling(): void {
+        this.isFalling = true;
+        this.depth = 5;
+
     }
 
     reset(): void {
@@ -70,6 +78,8 @@ export class Bird extends Sprite {
         this.idx = 0;
         this.speed = -200;
         this.rotation = 0;
+        this.isFalling = false;
+        this.depth = 0;
     }
 
 

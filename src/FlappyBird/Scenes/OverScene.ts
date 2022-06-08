@@ -18,7 +18,7 @@ export class OverScene extends Scene {
 
         this.restartBtn = new RestartBtn(390, 270, 220, 90, 'restart');
         this.objs.push(this.overImg);
-        this.texts.push(this.highestText);
+        this.objs.push(this.highestText);
         this.objs.push(this.restartBtn);
         this.inputHandler();
     }

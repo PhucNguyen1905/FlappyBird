@@ -24,8 +24,6 @@ export class InputHandler {
     }
     processInput() {
         for (const key of this.queue) {
-            console.log(this.queue)
-            console.log(this.callbacks)
             this.callbacks[key].forEach(c => {
                 if (c[0] == this.sceneManager.getCurrentName()) {
                     c[1]();

@@ -1,4 +1,5 @@
 import { TextObject } from "../../GameEngine/Object/TextObject";
+import { Scene } from "../../GameEngine/Scene";
 
 export class Score extends TextObject {
     final: string = '';
@@ -11,6 +12,12 @@ export class Score extends TextObject {
         } else {
             this.final = this.content + score;
         }
+    }
+
+    render(ctx: CanvasRenderingContext2D, scene: Scene) {
+        ctx.font = this.font;
+        ctx.fillStyle = this.style;
+        ctx.fillText(this.final, this.x, this.y)
     }
 
 

@@ -6,6 +6,7 @@ export class GameObject {
     width: number;
     height: number;
     rotation: number = 0;
+    depth: number = 0;
     scene!: Scene;
     constructor(x: number, y: number, w: number, h: number) {
         this.x = x;
@@ -14,7 +15,5 @@ export class GameObject {
         this.height = h;
     }
 
-    // get game() {
-    //     return this.scene.game;
-    // }
+    render(ctx: CanvasRenderingContext2D, scene: Scene) { }
 }

@@ -12,6 +12,7 @@ import { ScoreController } from "../ScoreController";
 
 export class PlayScene extends Scene {
     isOver = false;
+    isCollided = false;
     pipeIdx: number = 0;
 
     countPipeRun: number = 0;
@@ -74,10 +75,11 @@ export class PlayScene extends Scene {
         this.objs.push(this.crab);
         this.objs.push(this.bird);
         this.addObjs(this.pipes);
-        this.texts.push(this.scoreText);
+        this.objs.push(this.scoreText);
     }
     reset(): void {
         this.isOver = false;
+        this.isCollided = false;
         this.pipeIdx = 0;
         this.countPipeRun = 0;
         this.score = 0;
@@ -103,7 +105,7 @@ export class PlayScene extends Scene {
     }
 
     update(time: number, delta: number): void {
-        if (!this.isOver) {
+        if (!this.isCollided && !this.isOver) {
             this.updateBackground();
             this.bird.update(delta);
             this.updatePipe(delta);
@@ -111,7 +113,12 @@ export class PlayScene extends Scene {
             this.updateScore();
             this.scoreText.updateScore(this.score);
             this.checkCollision();
-        } else {
+        } else if (this.isCollided) {
+            this.bird.falling();
+            this.bird.update(delta)
+            this.checkReachGround();
+        }
+        else {
             this.reset();
             this.sceneManager.changeScene('OverScene');
         }
@@ -151,21 +158,22 @@ export class PlayScene extends Scene {
 
     inputHandler() {
         this.inputManager.onSpaceDown(this.bird.flyUp.bind(this.bird), 'PlayScene');
-        // document.addEventListener('keydown', event => {
-        //     if (event.code == 'Space' && this.sceneName == this.sceneManager.getCurrentName()) {
-        //         this.inputManager.onSpaceDown(this.bird.flyUp);
-        //     }
-        // })
-        // document.addEventListener('keyup', () => {
-
-        //     // console.log(123)
-        //     // this.bird.flyUp();
-        // })
+        this.inputManager.onClickBtn(this.bird.flyUp.bind(this.bird), 'PlayScene');
+        document.addEventListener('click', (e) => {
+            if (this.sceneName == this.sceneManager.getCurrentName()) {
+                this.inputManager.enQueue('Click');
+            }
+        })
     }
     render(scene: Scene): void {
         super.render(scene);
     }
-
+    checkReachGround(): void {
+        if (this.bird.y >= Constants.CANVAS_H - 45) {
+            this.isOver = true;
+            this.isCollided = false;
+        }
+    }
     checkCollision(): void {
         // Collision with ground
         if (this.bird.y >= Constants.CANVAS_H - 45) {
@@ -176,7 +184,7 @@ export class PlayScene extends Scene {
             let checkXPos: Boolean = this.bird.x + (Constants.BIRD_WIDTH - 95) >= p.x && this.bird.x <= p.x + p.width - 15;
             let checkYPos: Boolean = (this.bird.y <= p.y + Constants.PIPE_H + 20 && p.pos == 'top') || (this.bird.y + Constants.BIRD_HEIGHT - 55 >= p.y + Constants.PIPE_H + Constants.SPACE_BET_P && p.pos == 'top');
             if (checkXPos && checkYPos) {
-                this.isOver = true;
+                this.isCollided = true;
             }
         })
 
