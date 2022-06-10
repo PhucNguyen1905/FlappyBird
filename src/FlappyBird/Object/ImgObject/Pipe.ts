@@ -39,7 +39,7 @@ export class Pipe extends ImgObject {
     }
 
     isPassed(): Boolean {
-        if (this.x <= 80 && this.x >= 78 && this.pos == 'top') {
+        if (this.x <= 80 && this.x >= 76 && this.pos == 'top') {
             return true;
         }
         return false;
