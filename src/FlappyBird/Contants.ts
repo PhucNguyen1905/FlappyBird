@@ -1,4 +1,5 @@
 export const Constants = {
+    CANVAS_ID: 'gameArea',
     TO_RADIANS: Math.PI / 180,
     BIRD_WIDTH: 80,
     BIRD_HEIGHT: 70,

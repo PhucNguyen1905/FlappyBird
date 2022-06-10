@@ -21,8 +21,8 @@ export class PlayScene extends Scene {
     crab: Crab;
     Collide: Collision;
     scoreController: ScoreController;
-    constructor(areaId: string, name: string, game: Game, scoreController: ScoreController) {
-        super(areaId, name, game);
+    constructor(name: string, game: Game, scoreController: ScoreController) {
+        super(name, game);
         this.scoreController = scoreController;
 
         // Init bird sprite
@@ -75,15 +75,11 @@ export class PlayScene extends Scene {
         this.pipeIdx = 0;
         this.countPipeRun = 0;
         this.scoreController.resetScore();
-        this.backgounds = [];
         this.pipes = [];
         this.objs = [];
 
         // Reset bird
         this.bird.reset();
-
-        // Init background
-        this.initBackgrounds();
 
         // Reset score
         this.scoreController.resetScore();
@@ -162,9 +158,9 @@ export class PlayScene extends Scene {
             }
         })
     }
-    render(scene: Scene): void {
-        super.render(scene);
-    }
+    // render(scene: Scene): void {
+    //     super.render(scene);
+    // }
 
 
     checkReachGround(): void {

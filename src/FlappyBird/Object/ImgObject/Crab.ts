@@ -7,7 +7,7 @@ export class Crab extends ImgObject {
 
     update(canw: number): void {
         this.x -= 1.5;
-        if (this.x <= -30) {
+        if (this.x <= -this.width - 20) {
             this.x = canw;
         }
     }

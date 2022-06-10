@@ -10,8 +10,8 @@ export class OverScene extends Scene {
     restartBtn: RestartBtn;
     highestText: HighestText;
     scoreController: ScoreController;
-    constructor(areaId: string, name: string, game: Game, scoreController: ScoreController) {
-        super(areaId, name, game);
+    constructor(name: string, game: Game, scoreController: ScoreController) {
+        super(name, game);
         this.scoreController = scoreController;
         this.overImg = new Over(350, 100, 300, 100, 'over');
         this.highestText = this.scoreController.highestText;
@@ -32,6 +32,7 @@ export class OverScene extends Scene {
 
     inputHandler() {
         this.inputManager.onEnterDown(this.replayGame.bind(this), 'OverScene');
+        this.inputManager.onSpaceDown(this.replayGame.bind(this), 'OverScene');
         this.inputManager.onClickBtn(this.replayGame.bind(this), 'OverScene');
         document.addEventListener('click', (e) => {
             let x: number = e.clientX;
@@ -46,7 +47,7 @@ export class OverScene extends Scene {
         this.sceneManager.changeScene('PlayScene');
     }
 
-    render(scene: Scene): void {
-        super.render(scene);
-    }
+    // render(scene: Scene): void {
+    //     super.render(scene);
+    // }
 }

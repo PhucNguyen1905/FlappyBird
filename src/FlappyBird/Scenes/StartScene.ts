@@ -9,8 +9,8 @@ export class StartScene extends Scene {
     flappyImg: FlappyImg;
     playBtn: PlayBtn;
     backgounds: Background[] = [];
-    constructor(areaId: string, name: string, game: Game) {
-        super(areaId, name, game);
+    constructor(name: string, game: Game) {
+        super(name, game);
         // Init background
         for (let i = 0; i < 3; i++) {
             let bg = new Background(Constants.CANVAS_W * i, 0, Constants.CANVAS_W, Constants.CANVAS_H, 'bg')
@@ -50,7 +50,7 @@ export class StartScene extends Scene {
         this.sceneManager.changeScene('PlayScene')
     }
 
-    render(scene: Scene): void {
-        super.render(scene);
-    }
+    // render(scene: Scene): void {
+    //     super.render(scene);
+    // }
 }

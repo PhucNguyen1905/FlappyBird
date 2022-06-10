@@ -1,9 +1,5 @@
-import { ImgObject } from "./Object/ImgObject";
-import { Score } from "../FlappyBird/Object/Score";
 import { Scene } from "./Scene";
 import { GameObject } from "./Object/GameObject";
-
-const TO_RADIANS = Math.PI / 180;
 
 export class Renderer {
     canvas: HTMLCanvasElement;

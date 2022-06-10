@@ -2,6 +2,7 @@ import { InputHandler } from "./Helpers/InputHandler";
 import { SceneManager } from "./SceneManager";
 import { Loader } from "./Loader";
 import { Constants } from "../FlappyBird/Contants";
+import { Renderer } from "./Renderer";
 
 
 export class Game {
@@ -9,10 +10,12 @@ export class Game {
     lastTime = window.performance.now();
     inputManager: InputHandler;
     loader: Loader;
+    renderer: Renderer;
     constructor() {
         this.sceneManager = new SceneManager();
         this.inputManager = new InputHandler();
         this.inputManager.sceneManager = this.sceneManager;
+        this.renderer = new Renderer(Constants.CANVAS_ID);
         this.loader = new Loader();
     }
     async loadAssets() {
@@ -38,7 +41,7 @@ export class Game {
 
         this.inputManager.processInput();
         this.sceneManager.getCurrentScene().update(time, delta);
-        this.sceneManager.getCurrentScene().render(this.sceneManager.getCurrentScene());
+        this.renderer.render(this.sceneManager.getCurrentScene());
 
         this.lastTime = time;
         requestAnimationFrame(() => this.loop())
